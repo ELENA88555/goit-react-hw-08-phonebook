@@ -1,42 +1,97 @@
-import React, { useEffect } from 'react';
-import { ContactList } from './ContactList/ContactList';
-import { AddContactForm } from './AddContactForm/AddContactForm';
-import { Filter } from './Filter/Filter';
-import css from './App.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-// import { getContacts } from 'redux/slice';
+import React, { lazy, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { fetchContactsThunk } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { useAuth } from 'hooks/useAuth';
+// import { ContactList } from './ContactList/ContactList';
+// import { AddContactForm } from './AddContactForm/AddContactForm';
+// import { Filter } from './Filter/Filter';
+
+// import { getContacts } from 'redux/slice';
+// import { selectContacts } from 'redux/selectors';
+
+
+import { Layout } from './Layout';
+import { RestrictedRoute } from './RestrictedRoute';
+import { PrivateRoute } from './PrivateRoute';
+
+
+const HomePage = lazy(() => import('../pages/Home/Home'));
+const LoginPage = lazy(() => import('../pages/LogIn/LogIn'));
+const RegisterPage = lazy(() => import('../pages/Register/Register'));
+const PhonebookListPage = lazy(() =>
+  import('../pages/PhoneBookList/PhoneBookList')
+);
 
 export const App = () => {
-  const contacts = useSelector(selectContacts);
+  // const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
 
-  return (
-    <div>
-      <div className={css.thumble}>
-        <h1 className={css.title}>Phonebook</h1>
+  return isRefreshing ? (
+    <p>Refreshing user...</p>
+  ) : (
+    <Routes>
+      <Route path="/" element={<Layout/>}>
+        <Route index element={<HomePage/>} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage/>}/>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
 
-        <AddContactForm></AddContactForm>
-        <h2 className={css.titleText}> Contacts</h2>
-
-        {contacts.length < 1 ? (
-          <p className={css.textApp}> You have no contacts saved</p>
-        ) : (
-          <>
-            <Filter></Filter>
-            <div className={css.containerWrapper}>
-              <ContactList></ContactList>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute
+              redirectTo="/login"
+              component={<PhonebookListPage />}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
+  //   )
+  //   <div>
+  //     <div className={css.thumble}>
+  //       <h1 className={css.title}>Phonebook</h1>
+
+  //       <AddContactForm></AddContactForm>
+  //       <h2 className={css.titleText}> Contacts</h2>
+
+  //       {contacts.length < 1 ? (
+  //         <p className={css.textApp}> You have no contacts saved</p>
+  //       ) : (
+  //         <>
+  //           <Filter></Filter>
+  //           <div className={css.containerWrapper}>
+  //             <ContactList></ContactList>
+  //           </div>
+  //         </>
+  //       )}
+  //     </div>
+  //   </div>
+  // )
 };
 
 // export const App = () => {
@@ -119,3 +174,49 @@ export const App = () => {
 //     </div>
 //   );
 // };
+
+// .thumble{
+//   display: block;
+//     align-items: center;
+//     justify-content: center;
+//     padding: 30px;
+
+//   }
+
+//   .containerWrapper{
+//     width: 320px;
+//     margin: 0 100px;
+//     padding: 50px 10px 50px 10px;
+
+//   }
+
+//   .title{
+//     display: block;
+//     font-size: 30px;
+//     font-weight: bold;
+//     font-style: normal;
+//     color: rgb(123, 178, 223);
+//   margin-left: 200px;
+//   }
+
+//   .textApp{
+//     display: flex;
+//     align-items: center;
+//     text-align: center;
+//     justify-content: center;
+//     margin-top: 30px;
+//     font-size: 18px;
+//     font-style: normal;
+//     font-weight: 500;
+//   }
+
+//   .titleText{
+//     display: flex;
+//     align-items: center;
+//     text-align: center;
+//     justify-content: center;
+//     margin-top: 30px;
+//     font-size: 18px;
+//     font-style: normal;
+//     font-weight: 800;
+//   }

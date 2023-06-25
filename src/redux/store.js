@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {
+  persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -7,15 +9,22 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
-import { reducer } from './slice';
+import { contactsReducer} from './slice';
+import storage from 'redux-persist/lib/storage';
+import { authReducer } from './auth/slice';
 
-
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
 
 
 export const store = configureStore({
 
   reducer: {
-    contacts: reducer,
+    auth: persistReducer(authPersistConfig, authReducer),
+    contacts: contactsReducer,
   },
   middleware: getDefaultMiddleware =>
   getDefaultMiddleware({
@@ -26,11 +35,5 @@ export const store = configureStore({
 });
 
 
+export const persistor = persistStore(store);
 
-
-
-// Створи сховище з configureStore()
-// Використовуй функцію createSlice()
-// Створи дії збереження та видалення контакту, а також оновлення фільтра
-// Зв'яжи React-компоненти з Redux-логікою за допомогою хуків бібліотеки react-redux.
-// Використай бібліотеку Redux Persist для збереження масиву контактів у локальному сховищі
