@@ -13,17 +13,20 @@ export const AddContactForm = () => {
 
   const handleSubmitForm = event => {
     event.preventDefault();
-    const name = event.target.elements.name.value;
-    const phone = event.target.elements.phone.value;
+    const form = event.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
     const newContact = {
       id: nanoid(),
       name,
-      phone,
+      number,
     };
-    contacts.find(contact => contact.name === name)
+    contacts.find(
+      contact => contact.name.toLowerCase().trim() === name.toLowerCase().trim()
+    )
       ? alert(`${name} is alredy in contact`)
       : dispatch(addContactThunk(newContact));
-    event.target.reset();
+    form.reset();
   };
 
   return (
@@ -54,14 +57,14 @@ export const AddContactForm = () => {
           className={css.inputForm}
           id={loginInputId}
           type="tel"
-          name="phone"
+          name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
       </div>
       <button type="submit" className={css.btnForm}>
-       Add contact
+        Add contact
       </button>
     </form>
   );

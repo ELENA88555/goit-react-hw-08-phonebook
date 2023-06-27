@@ -8,20 +8,22 @@ import {
   selectIsLoading,
 } from 'redux/selectors';
 import { deleteContactThunk, fetchContactsThunk } from 'redux/operations';
+// import { nanoid } from '@reduxjs/toolkit';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   const contactsList = useSelector(selectVisibleContacts);
   const error = useSelector(selectError);
   const loading = useSelector(selectIsLoading);
+  // const contactId = nanoid()
+
 
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
 
-  const btnDeleteHandler = id => {
-    dispatch(deleteContactThunk(id));
-    // dispatch(fetchContactsThunk());
+  const btnDeleteHandler = contactId => {
+    dispatch(deleteContactThunk(contactId));
   };
 
   return (
@@ -29,14 +31,14 @@ export const ContactList = () => {
       {loading && <p>loading ...</p>}
 
       {contactsList.length > 0 ? (
-        contactsList.map(({ id, name, phone }) => (
-          <li className={css.item} key={id} id={id}>
+        contactsList.map(({ contactId, name, number }) => (
+          <li key={contactId} className={css.item}  id={contactId}>
             <p className={css.text}>{name}</p>
-            <p className={css.text}>{phone}</p>
+            <p className={css.text}>{number}</p>
             <button
               type="button"
               className={css.btnDelete}
-              onClick={() => btnDeleteHandler(id)}
+              onClick={() => btnDeleteHandler(contactId)}
             >
               Delete
             </button>

@@ -10,3 +10,25 @@
   font-size: 48;
   text-align: center;
 }
+
+.photo{
+  display: flex;
+margin: auto;
+margin-bottom: 20;
+
+}
+.container {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link {
+  color: orange;
+  text-decoration: none;
+}
+.text{
+  display: flex;
+  margin-left: 10;
+}

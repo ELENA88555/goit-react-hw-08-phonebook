@@ -17,6 +17,7 @@ export const Filter = () => {
         className={css.input}
         type="text"
         value={filter}
+        name="filter"
         onChange={handleFilterChange}
       />
     </div>
