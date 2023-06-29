@@ -1,7 +1,7 @@
 import React, { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchContactsThunk } from 'redux/operations';
+// import { fetchContactsThunk } from 'redux/operations';
 import { useAuth } from 'hooks/useAuth';
 // import { ContactList } from './ContactList/ContactList';
 // import { AddContactForm } from './AddContactForm/AddContactForm';
@@ -14,6 +14,7 @@ import { useAuth } from 'hooks/useAuth';
 import { Layout } from './Layout';
 import { RestrictedRoute } from './RestrictedRoute';
 import { PrivateRoute } from './PrivateRoute';
+import { refreshUser } from 'redux/auth/operations';
 
 
 const HomePage = lazy(() => import('../pages/Home/Home'));
@@ -28,8 +29,11 @@ export const App = () => {
   const dispatch = useDispatch();
   const { isRefreshing } = useAuth();
 
+
+ 
+
   useEffect(() => {
-    dispatch(fetchContactsThunk());
+    dispatch( refreshUser());
   }, [dispatch]);
 
   return isRefreshing ? (
