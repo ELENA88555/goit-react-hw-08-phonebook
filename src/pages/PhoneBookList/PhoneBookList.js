@@ -11,7 +11,7 @@ import css from './PhoneBook.module.css';
 // import { fetchTasks } from 'redux/tasks/operations';
 // import { selectLoading } from 'redux/tasks/selectors';
 
-export default function Tasks() {
+export default function PhonebookList() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
 

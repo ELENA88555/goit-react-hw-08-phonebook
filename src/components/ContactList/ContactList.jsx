@@ -22,7 +22,7 @@ export const ContactList = () => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
 
-  const btnDeleteHandler = contactId => {
+  const btnDeleteHandler =contactId => {
     dispatch(deleteContactThunk(contactId));
   };
 
@@ -31,14 +31,15 @@ export const ContactList = () => {
       {loading && <p>loading ...</p>}
 
       {contactsList.length > 0 ? (
-        contactsList.map(({ contactId, name, number }) => (
-          <li key={contactId} className={css.item}  id={contactId}>
+        contactsList.map(({ id, name, number }) => (
+          <li key={id} className={css.item} id={id} >
             <p className={css.text}>{name}</p>
             <p className={css.text}>{number}</p>
             <button
+            //  id={contactId}
               type="button"
               className={css.btnDelete}
-              onClick={ () => btnDeleteHandler(contactId)}
+              onClick={ () => btnDeleteHandler(id)}
             >
               Delete
             </button>
