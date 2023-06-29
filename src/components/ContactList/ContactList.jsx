@@ -8,14 +8,14 @@ import {
   selectIsLoading,
 } from 'redux/selectors';
 import { deleteContactThunk, fetchContactsThunk } from 'redux/operations';
-// import { nanoid } from '@reduxjs/toolkit';
+
 
 export const ContactList = () => {
   const dispatch = useDispatch();
   const contactsList = useSelector(selectVisibleContacts);
   const error = useSelector(selectError);
   const loading = useSelector(selectIsLoading);
-  // const contactId = nanoid()
+
 
 
   useEffect(() => {
