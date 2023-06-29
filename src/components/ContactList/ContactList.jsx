@@ -38,7 +38,7 @@ export const ContactList = () => {
             <button
               type="button"
               className={css.btnDelete}
-              onClick={() => btnDeleteHandler(contactId)}
+              onClick={ () => btnDeleteHandler(contactId)}
             >
               Delete
             </button>
